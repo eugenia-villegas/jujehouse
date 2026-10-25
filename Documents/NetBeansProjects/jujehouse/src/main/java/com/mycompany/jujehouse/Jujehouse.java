@@ -3,7 +3,6 @@
  */
 
 package com.mycompany.jujehouse;
-
 /**
  *
  * @author Euge
@@ -11,6 +10,7 @@ package com.mycompany.jujehouse;
 public class Jujehouse {
 
     public static void main(String[] args) {
+        
         System.out.println("Hello World!");
     }
 }
