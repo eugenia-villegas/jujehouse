@@ -108,7 +108,8 @@ paquete raíz
 
 ### Modelo
 - `Criatura` (abstracta) → `LuzMala`, `Pombero`, `Lobizon`
-- `Remedio` (abstracta) → `Cuchillo`, `Rezo`, `Ofrenda`
+- `TipoRemedio` (enum con nombre, poder, costo y efecto de cada remedio)
+- `Remedio` (clase concreta: guarda su `TipoRemedio` y si ya se usó en la oleada)
 - `Oleada`, `Partida`
 
 El **polimorfismo** vive en el multiplicador: cada subclase de `Criatura` sobreescribe cómo le afecta cada remedio.
@@ -181,7 +182,7 @@ Se carga con las tres leyendas la primera vez que corre el programa.
 - [ ] Paquetes creados
 - [ ] Prueba de conexión a SQLite
 - [ ] Modelo: `Criatura` y subclases
-- [ ] Modelo: `Remedio` y subclases
+- [ ] Modelo: `TipoRemedio` (enum) y `Remedio`
 - [ ] Lógica de combate probada por consola
 - [ ] `Partida` y `Oleada`
 - [ ] Ventana básica en Swing
