@@ -50,9 +50,29 @@ public abstract class Criatura {
         return remedio.getPoder() * getMultiplicador(remedio.getTipo());
     }
     
-    /*public double calcularDanoTotal() {
+    public double calcularDanoTotal(List<Remedio> listaRemedio) {
+        double danoTotal = 0;
         
-    }*/
+        for (Remedio remedio : listaRemedio) {
+            danoTotal = danoTotal + calcularDanoRecibido(remedio);
+        }
+        
+        esNeutralizada(danoTotal);
+        return danoTotal;
+    }
+    
+    public int calcularDanoAlPueblo(List<Remedio> remedios) {
+        double danoTotal = calcularDanoTotal(remedios);
+        if (esNeutralizada(danoTotal)) {
+            return 0;
+        }
+        for (Remedio remedio : remedios) {
+            if (remedio.getEfectoEspecial()) {
+                return this.danoAlPueblo / 2;
+            }
+        }
+        return this.danoAlPueblo;
+    }
     
     @Override 
     public String toString() {

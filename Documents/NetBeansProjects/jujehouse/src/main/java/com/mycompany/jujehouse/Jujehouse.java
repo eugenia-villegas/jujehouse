@@ -11,6 +11,7 @@ import modelo.Criatura;
 import modelo.LuzMala;
 import modelo.Pomberito;
 import modelo.Lobizon;
+import modelo.Partida;
 /**
  *
  * @author Euge
@@ -46,13 +47,12 @@ public class Jujehouse {
             System.out.println("- Vida: " + criatura.getVida());
             System.out.println("- Dano al Pueblo: " + criatura.getDanoAlPueblo());
             System.out.println("- Recompensa: " + criatura.getRecompensa());
-            System.out.println("Multiplicador");
-            for (Remedio remedio : listaRemedio) {
-                System.out.println("- " + remedio.getTipo() + ": " + criatura.getMultiplicador(remedio.getTipo()));
-            }
         }
-        Criatura luzMala = new LuzMala();
-        Remedio cuchillo = new Remedio(TipoRemedio.CUCHILLO);
-        System.out.println("Dano recibido por cuchillo: " + luzMala.calcularDanoRecibido(cuchillo));
+        
+        Partida partida = new Partida();
+        
+        System.out.println(partida.getCriaturas());
+        System.out.println(partida.getRemedios());
+        System.out.println(partida.getCriaturas().get(0));
     }
 }
