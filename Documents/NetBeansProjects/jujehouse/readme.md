@@ -2,7 +2,7 @@
 
 > Título provisional: cambialo por el nombre definitivo del juego.
 
-Juego de defensa por turnos ambientado en el folklore argentino. Criaturas de la tradición oral amenazan una estancia y el jugador debe protegerla con los remedios que cuenta la propia tradición.
+Juego de defensa por turnos ambientado en el folklore argentino. Criaturas de la tradición oral amenazan un pueblo y el jugador debe protegerlo con los remedios que cuenta la propia tradición.
 
 Proyecto de la cátedra **Programación III** (Licenciatura en Sistemas de Información, Facultad de Informática y Diseño, Universidad Champagnat).
 
@@ -16,8 +16,8 @@ Proyecto de la cátedra **Programación III** (Licenciatura en Sistemas de Infor
 | Herramienta | Uso |
 |---|---|
 | Java | Lenguaje principal (programación orientada a objetos) |
-| Swing | Interfaz gráfica |
-| SQLite (`sqlite-jdbc`) | Persistencia de jugadores, partidas y fichas de leyendas |
+| Swing | Interfaz gráfica, diseñada con el editor visual de NetBeans |
+| SQLite (`sqlite-jdbc`) | Persistencia de jugadores y partidas |
 | Maven | Gestión de dependencias y build |
 | Apache NetBeans | IDE |
 | Git / GitHub | Control de versiones |
@@ -27,31 +27,32 @@ Proyecto de la cátedra **Programación III** (Licenciatura en Sistemas de Infor
 1. Clonar el repositorio.
 2. Abrirlo en Apache NetBeans como proyecto Maven.
 3. Ejecutar *Clean and Build* (Maven descarga el driver de SQLite solo).
-4. Ejecutar la clase principal.
+4. Ejecutar la clase `Jujehouse` (paquete `com.mycompany.jujehouse`).
 
-El archivo de base de datos (`.db`) se crea automáticamente la primera vez que corre el programa. No hace falta instalar SQLite.
+El archivo de base de datos (`jujehouse.db`) se crea automáticamente la primera vez, junto con sus tablas. No hace falta instalar SQLite.
 
 ---
 
 ## Cómo se juega
 
-1. Antes de cada oleada podés **comprar remedios** con tus pesos.
-2. Aparecen las **criaturas** de la oleada.
-3. Asignás uno o más remedios a cada criatura. Los daños se suman.
-4. Se resuelve el combate:
-   - Si el daño total alcanza la vida de la criatura, queda **neutralizada** y ganás su recompensa.
-   - Si no, **llega a la estancia** y le resta tranquilidad.
-5. Cada remedio se puede usar **una sola vez por oleada**, pero se conserva para las siguientes.
-6. **Ganás** si sobrevivís las 5 oleadas. **Perdés** si la tranquilidad de la estancia llega a 0.
+1. Al abrir el juego se pide el nombre del jugador.
+2. En cada oleada aparecen criaturas. Seleccionás una en la lista y le asignás un remedio con los botones.
+3. Cada remedio se puede usar **una sola vez por oleada**; se reinician al empezar la siguiente.
+4. Podés asignar más de un remedio a la misma criatura: sus daños se suman.
+5. Con **Resolver** se calcula el resultado:
+   - Si el daño total alcanza la vida de la criatura, queda **neutralizada** y suma su recompensa al puntaje.
+   - Si no, **llega al pueblo** y le resta tranquilidad.
+6. **Ganás** si sobrevivís las 3 oleadas. **Perdés** si la tranquilidad del pueblo llega a 0.
+7. Al terminar, la partida se guarda y se muestra el ranking.
 
-**Valores iniciales:** 20 puntos de tranquilidad y 60 pesos.
+**Valores iniciales:** 10 puntos de tranquilidad y 0 puntos.
 
 ### Criaturas
 
-| Criatura | Vida | Daño a la estancia | Recompensa |
+| Criatura | Vida | Daño al pueblo | Recompensa |
 |---|---|---|---|
 | Luz Mala | 30 | 2 | 10 |
-| Pomberito | 40 | 4 | 20 |
+| Pomberito (inspirado en el Pombero) | 40 | 4 | 20 |
 | Lobizón | 60 | 8 | 50 |
 
 ### Remedios
@@ -59,8 +60,10 @@ El archivo de base de datos (`.db`) se crea automáticamente la primera vez que 
 | Remedio | Poder | Costo | Efecto especial |
 |---|---|---|---|
 | Cuchillo | 40 | 30 | Ninguno |
-| Rezo (cruz y oración) | 30 | 20 | Si no neutraliza a la criatura, reduce a la mitad el daño que hace a la estancia |
+| Rezo (cruz y oración) | 30 | 20 | Si no neutraliza a la criatura, reduce a la mitad el daño que hace al pueblo |
 | Ofrenda (tabaco, miel y caña) | 20 | 15 | Ninguno |
+
+El costo está definido en el enum, pero la versión actual no tiene tienda: el jugador recibe los tres remedios en cada oleada.
 
 ### Regla de combate
 
@@ -77,19 +80,17 @@ Se suman los daños efectivos de todos los remedios asignados a una criatura. Si
 Ejemplos:
 - Cuchillo contra Luz Mala: 60 ≥ 30, neutralizada.
 - Ofrenda contra Pomberito: 40 ≥ 40, neutralizado.
-- Lobizón: ningún remedio solo alcanza 60. Con Cuchillo + Rezo suman 85, neutralizado.
+- Lobizón: ningún remedio solo alcanza 60. Cuchillo + Rezo suman 85, neutralizado.
 
-### Oleadas (borrador, a ajustar jugando)
+### Oleadas
 
 | Oleada | Criaturas |
 |---|---|
-| 1 | 3 Luz Mala |
-| 2 | 3 Luz Mala + 1 Pomberito |
-| 3 | 2 Luz Mala + 2 Pomberito |
-| 4 | 2 Luz Mala + 2 Pomberito + 1 Lobizón |
-| 5 | 3 Luz Mala + 2 Pomberito + 2 Lobizón |
+| 1 | 2 Luz Mala |
+| 2 | 2 Luz Mala + Pomberito |
+| 3 | Lobizón + Pomberito + Luz Mala |
 
-**Puntaje final:** suma de recompensas obtenidas + bonus por tranquilidad restante.
+**Puntaje final:** suma de las recompensas de las criaturas neutralizadas.
 
 > Los valores numéricos son de balance de juego y se ajustan probando. Lo que se apoya en la tradición es qué remedio funciona contra cada criatura.
 
@@ -98,79 +99,63 @@ Ejemplos:
 ## Arquitectura (MVC)
 
 ```
-paquete raíz
-├── modelo          Lógica del juego, sin Swing ni SQL
-├── vista           Pantallas Swing, sin lógica de juego
-├── controlador     Conecta modelo y vista, maneja el flujo de la partida
-├── persistencia    Acceso a SQLite (DAOs)
-└── excepciones     Excepciones propias
+com.mycompany.jujehouse   Clase principal (main)
+modelo                    Lógica del juego, sin Swing ni SQL
+vista                     Pantalla Swing, sin lógica de juego
+controlador               Conecta modelo y vista
+persistencia              Acceso a SQLite
+excepciones               Excepciones propias
 ```
 
 ### Modelo
 - `Criatura` (abstracta) → `LuzMala`, `Pomberito`, `Lobizon`
 - `TipoRemedio` (enum con nombre, poder, costo y efecto de cada remedio)
 - `Remedio` (clase concreta: guarda su `TipoRemedio` y si ya se usó en la oleada)
-- `Oleada`, `Partida`
+- `Partida` (estado del juego: tranquilidad, puntaje, oleada, criaturas, remedios y asignaciones)
 
-El **polimorfismo** vive en el multiplicador: cada subclase de `Criatura` sobreescribe cómo le afecta cada remedio.
+El **polimorfismo** vive en `getMultiplicador`: cada subclase de `Criatura` lo sobreescribe con sus propios valores. El cálculo del daño, escrito una sola vez en `Criatura`, funciona para las tres.
 
 ### Vista
-- Ventana principal
-- Pantalla de juego (criaturas de la oleada, remedios, datos de la partida)
-- Pantalla de ranking
-- Pantalla de fichas de leyendas
+- `VentanaJuego`: lista de criaturas, botones de remedios, botón de resolver, estado de la partida e informe. No tiene lógica: avisa al controlador de cada clic y muestra lo que se le pide.
 
 ### Controlador
-- Controlador de juego: compra de remedios, asignación, resolución de oleadas, fin de partida
-- Controlador de persistencia: guardar partidas y leer ranking y fichas
+- `ControladorJuego`: recibe las acciones de la vista, usa `Partida`, decide cuándo guardar la partida y cómo informar los errores.
 
 ### Persistencia
-- `ConexionSQLite`: abre la conexión, activa las claves foráneas (`PRAGMA foreign_keys = ON`) y crea las tablas si no existen
-- `JugadorDAO`, `PartidaDAO`, `LeyendaDAO`
+- `ConexionSQLite`: abre la conexión, activa las claves foráneas (`PRAGMA foreign_keys = ON`) y crea las tablas si no existen.
+- `PartidaDAO`: guarda una partida y lee el ranking.
 
 ### Excepciones propias
-- `FondosInsuficientesException`: comprar un remedio sin pesos suficientes
-- `RemedioYaUtilizadoException`: reasignar un remedio ya usado en la oleada
-- `PersistenciaException`: envuelve las `SQLException` para que la vista nunca vea errores de JDBC
+- `RemedioYaUtilizadoException`: usar un remedio que ya se usó en la oleada. La lanza `Remedio.usar()` y la maneja el controlador.
+- `PersistenciaException`: envuelve las `SQLException` para que la vista y el controlador nunca vean errores de JDBC.
 
 ---
 
 ## Base de datos
 
 ```
-jugadores (1) ────< partidas >──── (0..1) leyendas
+jugadores (1) ────< partidas
 ```
 
 ### `jugadores`
 | Columna | Tipo | Notas |
 |---|---|---|
-| id | INTEGER | Clave primaria |
+| id | INTEGER | Clave primaria, autoincremental |
 | nombre | TEXT | No nulo, único |
-
-### `leyendas`
-| Columna | Tipo | Notas |
-|---|---|---|
-| id | INTEGER | Clave primaria |
-| nombre | TEXT | No nulo, único |
-| region | TEXT | Dónde se cuenta la leyenda |
-| descripcion | TEXT | Ficha mostrada en el juego |
-| como_se_enfrenta | TEXT | Qué dice la tradición |
-| fuente | TEXT | Origen del dato |
-
-Se carga con las tres leyendas la primera vez que corre el programa.
 
 ### `partidas`
 | Columna | Tipo | Notas |
 |---|---|---|
-| id | INTEGER | Clave primaria |
-| jugador_id | INTEGER | No nulo, FK → `jugadores.id` |
+| id | INTEGER | Clave primaria, autoincremental |
+| jugador_id | INTEGER | No nulo, clave foránea → `jugadores.id` |
 | puntaje | INTEGER | No nulo |
 | oleada_alcanzada | INTEGER | No nulo |
 | victoria | INTEGER | 0 o 1 |
-| derrotado_por_id | INTEGER | Puede ser nulo, FK → `leyendas.id` |
 | fecha | TEXT | Formato `YYYY-MM-DD HH:MM` |
 
-**Decisión de diseño:** las estadísticas de las criaturas (vida, daño, multiplicadores) viven en el código Java para aprovechar el polimorfismo. La base guarda solo el contenido informativo.
+**Ranking:** consulta con `JOIN` entre las dos tablas, ordenada por puntaje descendente (top 5).
+
+**Decisión de diseño:** las estadísticas de las criaturas (vida, daño, multiplicadores) viven en el código Java para aprovechar el polimorfismo. La base guarda solo jugadores y resultados.
 
 ---
 
@@ -179,21 +164,24 @@ Se carga con las tres leyendas la primera vez que corre el programa.
 - [x] Proyecto Maven creado en NetBeans
 - [x] Dependencia `sqlite-jdbc` agregada
 - [x] Repositorio en GitHub
-- [ ] Paquetes creados
+- [x] Paquetes creados
 - [x] Prueba de conexión a SQLite
-- [x] Modelo: `Criatura` y subclases
 - [x] Modelo: `TipoRemedio` (enum) y `Remedio`
-- [ ] Lógica de combate probada por consola
-- [ ] `Partida` y `Oleada`
-- [ ] Ventana básica en Swing
-- [ ] Pantalla de juego conectada a la lógica
-- [ ] Ciclo completo de 5 oleadas con victoria y derrota
-- [ ] Excepciones integradas
-- [ ] Tablas SQLite y DAOs
-- [ ] Guardado de partida y pantalla de ranking
-- [ ] Fichas de leyendas en el juego
-- [ ] Arte pixel art
+- [x] Modelo: `Criatura` y subclases
+- [x] Lógica de combate probada por consola
+- [x] Excepción `RemedioYaUtilizadoException`
+- [x] `Partida`
+- [x] Ventana Swing y controlador
+- [ ] Tablas SQLite, DAO y guardado de partida
+- [ ] Ranking al finalizar la partida
 - [ ] Pruebas de punta a punta
+
+## Mejoras futuras
+
+- Tienda de remedios con dinero.
+- Más oleadas y más criaturas del folklore (el Familiar, la Llorona).
+- Fichas de leyendas dentro del juego, guardadas en la base de datos.
+- Arte pixel art.
 
 ---
 
@@ -202,7 +190,5 @@ Se carga con las tres leyendas la primera vez que corre el programa.
 Las leyendas varían según la región y la fuente. Este proyecto toma como referencia:
 
 - Luz Mala: [Billiken](https://billiken.lat/entretenimiento/como-y-por-que-aparece-la-luz-mala-uno-de-los-mitos-argentinos-mas-famosos/)
-- Pomberito: [Billiken](https://billiken.lat/interesante/el-pombero-el-duende-mitologico-que-no-te-querras-cruzar-nunca/)
+- Pombero: [Billiken](https://billiken.lat/interesante/el-pombero-el-duende-mitologico-que-no-te-querras-cruzar-nunca/)
 - Lobizón: [Billiken](https://billiken.lat/interesante/quien-o-que-es-el-lobizon-uno-de-los-mas-famosos-mitos-argentinos/)
-
-Para reforzar las fichas conviene sumar alguna fuente académica o de recopilación folklórica.

@@ -49,12 +49,7 @@ public class Jujehouse {
             System.out.println("- Dano al Pueblo: " + criatura.getDanoAlPueblo());
             System.out.println("- Recompensa: " + criatura.getRecompensa());
         }
+        
         new ControladorJuego().iniciar();
-        
-        Partida partida = new Partida();
-        
-        System.out.println(partida.getCriaturas());
-        System.out.println(partida.getRemedios());
-        System.out.println(partida.getCriaturas().get(0));
     }
 }

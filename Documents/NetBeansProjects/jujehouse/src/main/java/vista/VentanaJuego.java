@@ -160,6 +160,14 @@ public class VentanaJuego extends javax.swing.JFrame {
         btnResolver.setEnabled(false);
     }
     
+    public String pedirNombre() {
+        String nombre = JOptionPane.showInputDialog(this, "Tu nombre:");
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return "Jugador";
+        }
+        return nombre.trim();
+    }
+    
     /**
      * @param args the command line arguments
      */

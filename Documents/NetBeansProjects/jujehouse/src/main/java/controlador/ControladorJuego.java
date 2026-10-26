@@ -9,6 +9,8 @@ import modelo.Partida;
 import modelo.Remedio;
 import modelo.TipoRemedio;
 import vista.VentanaJuego;
+import excepciones.PersistenciaExcepcion;
+import persistencia.PartidaDAO;
 
 /**
  *
@@ -17,16 +19,20 @@ import vista.VentanaJuego;
 public class ControladorJuego {
     private final Partida partida;
     private final VentanaJuego vista;
+    private final PartidaDAO dao;      // nuevo
+    private String nombreJugador; 
 
     public ControladorJuego() {
         this.partida = new Partida();
         this.vista = new VentanaJuego();
+        this.dao = new PartidaDAO();
         this.vista.setControlador(this);
     }
 
     public void iniciar() {
         refrescar();
         vista.setVisible(true);
+        this.nombreJugador = vista.pedirNombre();
     }
 
     private void refrescar() {
@@ -51,6 +57,15 @@ public class ControladorJuego {
             }
         }
     }
+    
+    private void finalizarPartida() {
+        try {
+            dao.guardar(nombreJugador, partida.getPuntaje(), partida.getOleadaActual() - 1, partida.isVictoria());
+            vista.mostrarMensaje("Ranking:\n" + dao.obtenerRanking());
+        } catch (PersistenciaExcepcion e) {
+            vista.mostrarMensaje(e.getMessage());
+        }
+    }
 
     public void resolverOleada() {
         String informe = partida.resolverOleada();
@@ -62,6 +77,8 @@ public class ControladorJuego {
             } else {
                 vista.mostrarMensaje("El pueblo cayó. Puntaje: " + partida.getPuntaje());
             }
+            
+            finalizarPartida();
             vista.deshabilitarJuego();
         }
     }
