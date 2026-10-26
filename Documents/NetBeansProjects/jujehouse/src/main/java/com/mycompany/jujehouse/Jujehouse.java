@@ -17,40 +17,39 @@ import modelo.Lobizon;
  */
 public class Jujehouse {
 
-    public static void main(String[] args) {
-        Remedio cuchillo = new Remedio(TipoRemedio.CUCHILLO);
-        Remedio rezo = new Remedio(TipoRemedio.REZO);
-        Remedio ofrenda = new Remedio(TipoRemedio.OFRENDA);
+    public static void main(String[] args) {        
+        List<Remedio> listaRemedio = new ArrayList<Remedio> ();
+        listaRemedio.add(new Remedio(TipoRemedio.CUCHILLO));
+        listaRemedio.add(new Remedio(TipoRemedio.REZO));
+        listaRemedio.add(new Remedio(TipoRemedio.OFRENDA));
         
-        System.out.println("Los remedios son: " + cuchillo + ", " + rezo + ", " + ofrenda);
-        System.out.println("Detalle:");
-        System.out.println("Cuchillo poder: " + cuchillo.getPoder());
-        System.out.println("Cuchillo costo: $" + cuchillo.getCosto());
-        System.out.println("Cuchillo efecto especial: " + cuchillo.getEfectoEspecial());
-        System.out.println("Rezo poder: " + rezo.getPoder());
-        System.out.println("Rezo costo: $" + rezo.getCosto());
-        System.out.println("Rezo efecto especial: " + rezo.getEfectoEspecial());
-        System.out.println("Ofrenda poder: " + ofrenda.getPoder());
-        System.out.println("Ofrenda costo: $" + ofrenda.getCosto());
-        System.out.println("Ofrenda efecto especial: " + ofrenda.getEfectoEspecial());
-        
-        List<Remedio>
+        System.out.println("********************************************************");
+        System.out.println("Remedios: ");
+        for (Remedio listaRemedio1 : listaRemedio) {
+            System.out.println(listaRemedio1.getTipo());
+            System.out.println("- Poder: " + listaRemedio1.getPoder());
+            System.out.println("- Costo: $" + listaRemedio1.getCosto());
+            System.out.println("- Efecto especial? " + listaRemedio1.getEfectoEspecial());
+        }
         
         System.out.println("********************************************************");
         
         List<Criatura> listaCriatura = new ArrayList<Criatura> ();
         listaCriatura.add(new LuzMala());
         listaCriatura.add(new Pomberito());
-        listaCriatura.add(new Lobizon());
+        listaCriatura.add(new Lobizon());        
         
         System.out.println("Criaturas y sus caracteristicas: ");
         
-        for (int i = 0; i < listaCriatura.size(); i++) {
-            
-            System.out.println(listaCriatura.get(i));
-            System.out.println("- Vida: " + listaCriatura.get(i).getVida());
-            System.out.println("- Dano al Pueblo: " + listaCriatura.get(i).getDanoAlPueblo());
-            System.out.println("- Recompensa: " + listaCriatura.get(i).getRecompensa());
+        for (Criatura  criatura : listaCriatura) {
+            System.out.println(criatura.getNombre());
+            System.out.println("- Vida: " + criatura.getVida());
+            System.out.println("- Dano al Pueblo: " + criatura.getDanoAlPueblo());
+            System.out.println("- Recompensa: " + criatura.getRecompensa());
+            System.out.println("Multiplicador");
+            for (Remedio remedio : listaRemedio) {
+                System.out.println("- " + remedio.getTipo() + ": " + criatura.getMultiplicador(remedio.getTipo()));
+            }
         }
         
         
