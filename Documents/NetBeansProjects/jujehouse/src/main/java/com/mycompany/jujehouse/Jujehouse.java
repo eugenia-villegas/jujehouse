@@ -25,11 +25,11 @@ public class Jujehouse {
         
         System.out.println("********************************************************");
         System.out.println("Remedios: ");
-        for (Remedio listaRemedio1 : listaRemedio) {
-            System.out.println(listaRemedio1.getTipo());
-            System.out.println("- Poder: " + listaRemedio1.getPoder());
-            System.out.println("- Costo: $" + listaRemedio1.getCosto());
-            System.out.println("- Efecto especial? " + listaRemedio1.getEfectoEspecial());
+        for (Remedio remedio : listaRemedio) {
+            System.out.println(remedio.getTipo());
+            System.out.println("- Poder: " + remedio.getPoder());
+            System.out.println("- Costo: $" + remedio.getCosto());
+            System.out.println("- Efecto especial? " + remedio.getEfectoEspecial());
         }
         
         System.out.println("********************************************************");
@@ -51,7 +51,8 @@ public class Jujehouse {
                 System.out.println("- " + remedio.getTipo() + ": " + criatura.getMultiplicador(remedio.getTipo()));
             }
         }
-        
-        
+        Criatura luzMala = new LuzMala();
+        Remedio cuchillo = new Remedio(TipoRemedio.CUCHILLO);
+        System.out.println("Dano recibido por cuchillo: " + luzMala.calcularDanoRecibido(cuchillo));
     }
 }

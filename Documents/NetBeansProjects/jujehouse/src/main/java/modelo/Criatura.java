@@ -4,6 +4,9 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Euge
@@ -42,6 +45,14 @@ public abstract class Criatura {
     public boolean esNeutralizada(double danoRecibidoTotal) {
         return danoRecibidoTotal >= vida;
     }
+    
+    public double calcularDanoRecibido(Remedio remedio) {
+        return remedio.getPoder() * getMultiplicador(remedio.getTipo());
+    }
+    
+    /*public double calcularDanoTotal() {
+        
+    }*/
     
     @Override 
     public String toString() {
