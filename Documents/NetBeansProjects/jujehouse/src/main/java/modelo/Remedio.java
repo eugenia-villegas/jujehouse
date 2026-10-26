@@ -34,7 +34,7 @@ public class Remedio {
     
     public String getNombre() {
         return tipo.getNombre();
-    }
+    } //remover??
     
     public int getPoder() {
         return tipo.getPoder();
@@ -48,7 +48,8 @@ public class Remedio {
         return tipo.getEfectoEspecial();
     }
     
-    public @Override String toString() {
+    @Override
+    public String toString() {
         return tipo.getNombre();
     }
 }

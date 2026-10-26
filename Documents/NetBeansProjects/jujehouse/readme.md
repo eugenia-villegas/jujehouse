@@ -51,7 +51,7 @@ El archivo de base de datos (`.db`) se crea automáticamente la primera vez que 
 | Criatura | Vida | Daño a la estancia | Recompensa |
 |---|---|---|---|
 | Luz Mala | 30 | 2 | 10 |
-| Pombero | 40 | 4 | 20 |
+| Pomberito | 40 | 4 | 20 |
 | Lobizón | 60 | 8 | 50 |
 
 ### Remedios
@@ -66,7 +66,7 @@ El archivo de base de datos (`.db`) se crea automáticamente la primera vez que 
 
 `daño efectivo = poder del remedio × multiplicador según la criatura`
 
-| | Luz Mala | Pombero | Lobizón |
+| | Luz Mala | Pomberito | Lobizón |
 |---|---|---|---|
 | Cuchillo | ×1.5 | ×0.5 | ×1 |
 | Rezo | ×1 | ×1 | ×1.5 |
@@ -76,7 +76,7 @@ Se suman los daños efectivos de todos los remedios asignados a una criatura. Si
 
 Ejemplos:
 - Cuchillo contra Luz Mala: 60 ≥ 30, neutralizada.
-- Ofrenda contra Pombero: 40 ≥ 40, neutralizado.
+- Ofrenda contra Pomberito: 40 ≥ 40, neutralizado.
 - Lobizón: ningún remedio solo alcanza 60. Con Cuchillo + Rezo suman 85, neutralizado.
 
 ### Oleadas (borrador, a ajustar jugando)
@@ -84,10 +84,10 @@ Ejemplos:
 | Oleada | Criaturas |
 |---|---|
 | 1 | 3 Luz Mala |
-| 2 | 3 Luz Mala + 1 Pombero |
-| 3 | 2 Luz Mala + 2 Pombero |
-| 4 | 2 Luz Mala + 2 Pombero + 1 Lobizón |
-| 5 | 3 Luz Mala + 2 Pombero + 2 Lobizón |
+| 2 | 3 Luz Mala + 1 Pomberito |
+| 3 | 2 Luz Mala + 2 Pomberito |
+| 4 | 2 Luz Mala + 2 Pomberito + 1 Lobizón |
+| 5 | 3 Luz Mala + 2 Pomberito + 2 Lobizón |
 
 **Puntaje final:** suma de recompensas obtenidas + bonus por tranquilidad restante.
 
@@ -107,7 +107,7 @@ paquete raíz
 ```
 
 ### Modelo
-- `Criatura` (abstracta) → `LuzMala`, `Pombero`, `Lobizon`
+- `Criatura` (abstracta) → `LuzMala`, `Pomberito`, `Lobizon`
 - `TipoRemedio` (enum con nombre, poder, costo y efecto de cada remedio)
 - `Remedio` (clase concreta: guarda su `TipoRemedio` y si ya se usó en la oleada)
 - `Oleada`, `Partida`
@@ -180,9 +180,9 @@ Se carga con las tres leyendas la primera vez que corre el programa.
 - [x] Dependencia `sqlite-jdbc` agregada
 - [x] Repositorio en GitHub
 - [ ] Paquetes creados
-- [ ] Prueba de conexión a SQLite
-- [ ] Modelo: `Criatura` y subclases
-- [ ] Modelo: `TipoRemedio` (enum) y `Remedio`
+- [x] Prueba de conexión a SQLite
+- [x] Modelo: `Criatura` y subclases
+- [x] Modelo: `TipoRemedio` (enum) y `Remedio`
 - [ ] Lógica de combate probada por consola
 - [ ] `Partida` y `Oleada`
 - [ ] Ventana básica en Swing
@@ -202,7 +202,7 @@ Se carga con las tres leyendas la primera vez que corre el programa.
 Las leyendas varían según la región y la fuente. Este proyecto toma como referencia:
 
 - Luz Mala: [Billiken](https://billiken.lat/entretenimiento/como-y-por-que-aparece-la-luz-mala-uno-de-los-mitos-argentinos-mas-famosos/)
-- Pombero: [Billiken](https://billiken.lat/interesante/el-pombero-el-duende-mitologico-que-no-te-querras-cruzar-nunca/)
+- Pomberito: [Billiken](https://billiken.lat/interesante/el-pombero-el-duende-mitologico-que-no-te-querras-cruzar-nunca/)
 - Lobizón: [Billiken](https://billiken.lat/interesante/quien-o-que-es-el-lobizon-uno-de-los-mas-famosos-mitos-argentinos/)
 
 Para reforzar las fichas conviene sumar alguna fuente académica o de recopilación folklórica.

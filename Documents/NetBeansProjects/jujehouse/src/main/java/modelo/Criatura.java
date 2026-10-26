@@ -8,12 +8,43 @@ package modelo;
  *
  * @author Euge
  */
-abstract public class Criatura {
-    int vida;
-    int dano;
-    int recompensa;
-}
+public abstract class Criatura {
+    private String nombre;
+    private int vida;
+    private int danoAlPueblo;
+    private int recompensa;
 
-class LuzMala extends Criatura {
+    public Criatura(String nombre, int vida, int danoAlPueblo, int recompensa) {
+        this.nombre = nombre;
+        this.vida = vida;
+        this.danoAlPueblo = danoAlPueblo;
+        this.recompensa = recompensa;
+    }
     
+    public String getNombre() {
+        return this.nombre;
+    }
+    
+    public int getVida() {
+        return this.vida;
+    }
+    
+    public int getDanoAlPueblo() {
+        return this.danoAlPueblo;
+    }
+    
+    public int getRecompensa() {
+        return this.recompensa;
+    }
+    
+    public abstract double getMultiplicador(TipoRemedio tipo); 
+    
+    public boolean esNeutralizada(double danoRecibidoTotal) {
+        return danoRecibidoTotal >= vida;
+    }
+    
+    @Override 
+    public String toString() {
+        return getNombre();
+    }
 }
