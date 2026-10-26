@@ -12,6 +12,7 @@ import modelo.LuzMala;
 import modelo.Pomberito;
 import modelo.Lobizon;
 import modelo.Partida;
+import controlador.ControladorJuego;
 /**
  *
  * @author Euge
@@ -48,6 +49,7 @@ public class Jujehouse {
             System.out.println("- Dano al Pueblo: " + criatura.getDanoAlPueblo());
             System.out.println("- Recompensa: " + criatura.getRecompensa());
         }
+        new ControladorJuego().iniciar();
         
         Partida partida = new Partida();
         
